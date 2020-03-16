@@ -1,0 +1,8 @@
+---
+- hosts: aws-web
+  become_user: root
+  become_method: sudo
+    
+  roles:
+    - deploy-cleanup
+    

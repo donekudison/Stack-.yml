@@ -1,0 +1,49 @@
+# roles/tasks/main.yml
+---
+- name: Remove packages
+  yum:
+    name: "{{ item }}"
+    update_cache: yes
+    state: absent
+  with_items:
+    - httpd
+    # - mod_ssl
+
+- name: Remove html index file
+  file:
+    name: /var/www/html/index.html
+    state: absent
+  notify: restart httpd
+
+- name: Install packages
+  yum:
+    name: "{{ item }}"
+    update_cache: yes
+    state: latest
+  with_items:
+    - httpd
+    - firewalld
+
+- name: Ensure Apache is always running
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Enable firewalld
+  service:
+    name: firewalld 
+    state: started
+    enabled: yes
+
+- name: Enable httpd on port 80
+  firewalld:
+    zone: public
+    port: 80/tcp
+    permanent: true
+    state: enabled
+
+- name: Restart firewalld
+  service:
+    name: firewalld
+    state: restarted

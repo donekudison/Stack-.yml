@@ -1,0 +1,9 @@
+---
+httpd_user: root
+http_port: 80
+# https_port: 443
+domain: projectassignment.com
+httpd_config: /etc/httpd/conf/httpd.conf
+# httpd_ssl_config:  /etc/httpd/conf.d/ssl.conf
+
+
